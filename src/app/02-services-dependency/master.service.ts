@@ -11,4 +11,12 @@ export class MasterService {
   getValue(){
     return this.valueService.getValue();
   }
+
+  getObservableValue(){
+    return this.valueService.getObservableValue();
+  }
+
+  getPromiseValue(){
+    return this.valueService.getPromiseValue();
+  }
 }
