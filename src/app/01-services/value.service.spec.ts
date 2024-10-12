@@ -21,6 +21,7 @@ describe('ValueService', () => {
 
   // esperamos lo mismo con el toBe y para este caso utilizamos done para pruebas asincronas
   // suscribiendonos al observable y comprobando el valor, verificamos y damos fin a la prueba con el done
+  // done cuando es asincrona
   it('#getObservableValue should return valur from observable', (done: DoneFn) => {
     service.getObservableValue().subscribe((value) => {
       expect(value).toBe('observable value');
