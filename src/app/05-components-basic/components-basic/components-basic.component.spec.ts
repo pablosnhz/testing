@@ -17,7 +17,17 @@ describe('ComponentsBasicComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('#clicked() should tohhle #isOn', () => {
+    expect(component.isOn).toBeTruthy();
+    component.clicked();
+    expect(component.isOn).toBeFalsy();
+    component.clicked();
+    expect(component.isOn).toBeTruthy();
   });
+
+  it('#clicked() should should set #message to "is on"', () => {
+    expect(component.message).toMatch(/Prendido/i);
+    component.clicked();
+    expect(component.message).toMatch(/Apagado/i);
+  })
 });
