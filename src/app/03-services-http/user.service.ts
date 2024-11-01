@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export class UserService {
 
   public users = [];
+  public user = { name: 'test user' }
   private url = 'https://jsonplaceholder.typicode.com/users';
 
   constructor(private http: HttpClient) { }
