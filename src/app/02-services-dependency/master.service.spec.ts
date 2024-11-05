@@ -3,9 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { MasterService } from './master.service';
 import { ValueService } from '../01-services/value.service';
 import { of } from 'rxjs';
+import { SecretsService } from '../01-services/secrets.service';
 
 describe('MasterService', () => {
   let masterService: MasterService;
+  let secretsService: SecretsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -21,6 +23,17 @@ describe('MasterService', () => {
   it('#getValue should return real value from the real service', () => {
     masterService = new MasterService(new ValueService());
     expect(masterService.getValue()).toBe('real value');
+  })
+
+  it('#getSecretNumber should return real value from the real service', () => {
+    masterService = new MasterService(new ValueService(), new SecretsService());
+    expect(masterService.getSecretNumber()).toBe(12345);
+  })
+
+  it('#getSecretNumber should return faked value from a fake object', () => {
+    const fake = { getNumber: () => 14257};
+    masterService = new MasterService(new ValueService, fake as SecretsService);
+    expect(masterService.getSecretNumber()).toBe(14257);
   })
 
   // aca creamos un fake, un mock para testearlo, lo mismo que el de arriba
