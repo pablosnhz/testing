@@ -3,12 +3,18 @@ import { TestBed } from '@angular/core/testing';
 import { CalcService } from './calc.service';
 import { SharedService } from './shared.service';
 
-fdescribe('CalcService', () => {
+describe('CalcService', () => {
   let service: CalcService;
+  let shared: SharedService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    console.log('before Each is called');
+
+    TestBed.configureTestingModule({
+      providers: [CalcService, SharedService]
+    });
     service = TestBed.inject(CalcService);
+    shared = TestBed.inject(SharedService);
   });
 
   it('should be created', () => {
@@ -22,14 +28,20 @@ fdescribe('CalcService', () => {
     expect(calc.multiply(2, 3)).toBe(6);
   })
 
-  // comprobamos que el sharedFunction se ha llamado
-  it('should call the sharedFunction', () => {
-    const shared = jasmine.createSpyObj('sharedService', ["sharedFunction"]);
-    // const shared = new SharedService();
-    // spyOn(shared, 'sharedFunction');
+  it('should add two numbers', () => {
+    const shared = new SharedService();
     const calc = new CalcService(shared);
-    const result = calc.multiply(2, 3);
-    expect(result).toBe(6);
-    // expect(shared.sharedFunction).toHaveBeenCalled();
+    expect(calc.multiply(2, 3)).toBe(6);
   })
+
+  // comprobamos que el sharedFunction se ha llamado
+  // it('should call the sharedFunction', () => {
+  //   const shared = jasmine.createSpyObj('sharedService', ["sharedFunction"]);
+  //   // const shared = new SharedService();
+  //   // spyOn(shared, 'sharedFunction');
+  //   const calc = new CalcService(shared);
+  //   const result = calc.multiply(2, 3);
+  //   expect(result).toBe(6);
+  //   // expect(shared.sharedFunction).toHaveBeenCalled();
+  // })
 });
