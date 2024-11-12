@@ -13,8 +13,8 @@ describe('CalcService', () => {
     TestBed.configureTestingModule({
       providers: [CalcService, SharedService]
     });
-    service = TestBed.inject(CalcService);
-    shared = TestBed.inject(SharedService);
+    // service = TestBed.inject(CalcService);
+    // shared = TestBed.inject(SharedService);
   });
 
   it('should be created', () => {
