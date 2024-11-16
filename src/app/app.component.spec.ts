@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -38,7 +38,31 @@ describe('AppComponent', () => {
   //   expect(compiled.querySelector('h1')?.textContent).toContain('Hello, testing');
   // });
 
-  it('should render a button with text "Subscribe" and the button should be disabled after clicked', () => {
+  // it('should render a button with text "Subscribe" and the button should be disabled after clicked', (done: DoneFn) => {
+  //   component.isSubscribed = false;
+  //   fixture.detectChanges();
+  //   let btnElements = el.queryAll(By.css('.subscribe'));
+  //   console.log(btnElements);
+  //   // component.btnText = 'Subscribe';
+  //   btnElements[0].nativeElement.click();
+  //   fixture.detectChanges();
+  //   btnElements = el.queryAll(By.css('.subscribe'));
+  //   setTimeout(() => {
+  //     console.log('other cases test');
+
+  //   }, 8000);
+  //   // con timeout
+  //   setTimeout(() => {
+  //     expect(btnElements[0].nativeElement.textContent).toBe('Subscribe');
+  //     expect(btnElements[0].nativeElement.disabled).toBeTrue();
+  //     done();
+  //   }, 3000);
+  //   // sin timeout
+  //   // expect(btnElements[0].nativeElement.textContent).toBe('Subscribed');
+  //   // expect(btnElements[0].nativeElement.disabled).toBeTrue();
+  // })
+
+  it('should render a button with text "Subscribe" and the button should be disabled after clicked', fakeAsync(() => {
     component.isSubscribed = false;
     fixture.detectChanges();
     let btnElements = el.queryAll(By.css('.subscribe'));
@@ -47,13 +71,20 @@ describe('AppComponent', () => {
     btnElements[0].nativeElement.click();
     fixture.detectChanges();
     btnElements = el.queryAll(By.css('.subscribe'));
+    setTimeout(() => {
+      console.log('other cases test');
+
+    }, 8000);
     // con timeout
     setTimeout(() => {
-      expect(btnElements[0].nativeElement.textContent).toBe('Subscribed');
-      expect(btnElements[0].nativeElement.disabled).toBeFalse();
+      fixture.detectChanges();
+      btnElements = el.queryAll(By.css('.subscribe'));
     }, 3000);
+    flush();
+    // tick(8000);
     // sin timeout
-    // expect(btnElements[0].nativeElement.textContent).toBe('Subscribed');
-    // expect(btnElements[0].nativeElement.disabled).toBeTrue();
-  })
+    expect(btnElements[0].nativeElement.textContent).toBe('Subscribed');
+    expect(btnElements[0].nativeElement.disabled).toBeTrue();
+    // tick(8000);
+  }));
 });
