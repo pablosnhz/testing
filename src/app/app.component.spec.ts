@@ -2,6 +2,8 @@ import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core
 import { AppComponent } from './app.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { delay, of } from 'rxjs';
+import { GradePipe } from './pipe/grade.pipe';
 
 describe('AppComponent', () => {
 
@@ -11,7 +13,7 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent],
+      imports: [AppComponent, GradePipe],
     }).compileComponents().then(() => {
       fixture = TestBed.createComponent(AppComponent);
       el = fixture.debugElement;
@@ -86,5 +88,36 @@ describe('AppComponent', () => {
     expect(btnElements[0].nativeElement.textContent).toBe('Subscribed');
     expect(btnElements[0].nativeElement.disabled).toBeTrue();
     // tick(8000);
+  }));
+
+
+  it('should test the promise', fakeAsync(() => {
+    let counter = 0;
+
+    setTimeout(() => {
+      counter = counter + 2;
+    }, 2000);
+
+    setTimeout(() => {
+      counter = counter + 3;
+    }, 3000);
+
+    Promise.resolve().then(() => {
+      counter = counter + 1;
+    });
+    flush();
+    expect(counter).toBe(6);
+  }))
+
+  it('should test the observable', fakeAsync(() => {
+    let isSubscribed = false;
+    let myObs = of(isSubscribed).pipe(
+      delay(3000)
+    );
+    myObs.subscribe(() => {
+      isSubscribed = true;
+    });
+    tick(3000);
+    expect(isSubscribed).toBeTrue();
   }));
 });

@@ -3,6 +3,9 @@
 <button *ngIf="!isSubscribed" class="subscribe" (click)="subscribe()">Subscribe</button>
 <button *ngIf="isSubscribed" class="subscribe" disabled>Subscribed</button>
 
+<div *ngFor="let item of marks">
+  {{ item | grade }}
+</div>
 
 <router-outlet />
 <app-components-basic></app-components-basic>
