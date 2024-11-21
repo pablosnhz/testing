@@ -6,7 +6,7 @@ import { Directive, ElementRef, HostListener, Input, input } from '@angular/core
 })
 export class GradeDirective {
 
-  @Input()  mark = 0;
+  @Input() mark = 0;
 
   constructor(private el: ElementRef) { }
 
